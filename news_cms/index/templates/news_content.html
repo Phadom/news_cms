@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>文章发布</title>
+<link rel="stylesheet" type="text/css" href="./css/index.css">
+</head>
+
+<body>
+	<meta charset="utf-8" />
+<div id="header">
+<img src="./images/logo1.png" alt="logo"/>
+<ul>
+	<li><a href="register.php">会员注册</a></li>
+    <li><a href="login.php">登陆</a>/</li>
+</ul>
+</div>
+
+<div id="nav">
+<ul>
+	<li ><a href="#">首页</a></li>
+    <li><a href="#"  class="active">国内新闻</a></li>
+    <li><a href="#">国际新闻</a></li>
+    <li><a href="#">军事新闻</a></li>
+    <li><a href="#">娱乐新闻</a></li>
+</ul>
+</div>
+
+<div class="blank20"></div>
+
+<div class="article">
+	{foreach from=$arr item=it}
+		<h3>{$it.title}</h3>
+		<p>{$it.content}</p>
+	{/foreach}
+</div>
+
+
+<div class="blank20"></div>
+
+<div id="footer">
+	<p>版权所有&copy;八维研修学院<br />联系方式：010-82157081&nbsp;&nbsp;010-82157081&nbsp;&nbsp;010-82157081</p>
+</div>
+
+</body>
+</html>

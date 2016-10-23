@@ -1,0 +1,103 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+<link rel="stylesheet" type="text/css" href="./css/public.css">
+{literal}
+<style>
+  #ppp a{margin:10px;display:inline-block;border:#ccc solid 1px;padding:5px 10px;color:#087eac;}
+  #ppp{
+    text-align: center;
+  }
+
+</style>
+{/literal}
+<script src="jquery1.8.js"></script>
+</head>
+
+<body>
+<meta charset='utf8'/>
+<div  id="main">
+  <input type="text" id="ser" /><button onclick="ser()">搜索</button>
+<table width="90%" border="0" cellspacing="0" cellpadding="0" class="news_table" id="table">
+  <caption>
+    新闻列表
+  </caption>
+  <tr>
+    <th scope="col">编号</th>
+    <th scope="col" width="100">新闻标题</th>
+    <th scope="col">所属分类</th>
+    <th scope="col" width="200">新闻内容</th>
+    <th scope="col">添加人</th>
+    <th scope="col">时间</th>
+    <th scope="col">操作</th>
+  </tr>
+  {foreach from=$arr item=it}
+    <tr>
+      <td>{$it.nid}</td>
+      <td>{$it.title}</td>
+      <td>{$it.cname}</td>
+      <td>{$it.content}</td>
+      <td>{$it.author}</td>
+      <td>{$it.add_time}</td>
+      <td><a href="#" onclick='del({$it.nid})'>删除</a>||<a href="#">修改</a></td>
+    </tr>
+  {/foreach}
+</table>
+<p id="ppp">{$nav}</p>
+</div>
+</body>
+</html>
+ {literal}
+ <script>
+ function del(id){
+    if(confirm("您确定要删除吗")){
+      $.ajax({
+        url:"del_news.php",
+        data:{id,id},
+        success:function(e){
+          if(e==1){
+            alert('删除成功');location.href='news_list.php';
+          }else{
+            alert('删除失败');
+          }
+        }
+      })
+    }
+ }
+ function pagep(nowpage){   
+    var name=$("#ser").val();
+    var  str="<caption>新闻列表</caption><tr><th scope='col'>编号</th><th scope='col' width='100'>新闻标题</th><th scope='col'>所属分类</th><th scope='col' width='200'>新闻内容</th><th scope='col'>添加人</th><th scope='col'>时间</th><th scope='col'>操作</th></tr>";
+    $.ajax({
+      url:"ajax.php",     
+      data:{"nowpage":nowpage,"name":name},
+      dataType:'json',
+      success:function(o){
+        for(var k in o){
+          str+="<tr><td>"+o[k].nid+"</td><td>"+o[k].title+"</td><td>"+o[k].cname+"</td><td>"+o[k].content+"</td><td>"+o[k].author+"</td><td>"+o[k].add_time+"</td><td><a href='#' onclick='del("+o[k].nid+")'>删除</a>||<a href='#'>修改</a></td></tr>";        
+        }
+          $("#table").html(str);
+        }
+    })
+  }
+  function ser(){
+    var name=$("#ser").val();
+    var  str="<caption>新闻列表_搜索结果</caption><tr><th scope='col'>编号</th><th scope='col' width='100'>新闻标题</th><th scope='col'>所属分类</th><th scope='col' width='200'>新闻内容</th><th scope='col'>添加人</th><th scope='col'>时间</th><th scope='col'>操作</th></tr>";
+    $.ajax({
+      url:"ser.php",
+      data:{"name":name},
+      dataType:"json",
+      success:function(e){
+        for(var i in e){
+          if(i!="nav"){
+            str+="<tr><td>"+e[i].nid+"</td><td>"+e[i].title+"</td><td>"+e[i].cname+"</td><td>"+e[i].content+"</td><td>"+e[i].author+"</td><td>"+e[i].add_time+"</td><td><a href='#' onclick='del("+e[i].nid+")'>删除</a>||<a href='#'>修改</a></td></tr>";
+          }  
+        }
+        $("#table").html(str);
+        $("#ppp").html(e.nav);
+      }
+    })
+  }
+ </script>
+ {/literal}
